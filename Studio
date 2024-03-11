@@ -1,0 +1,88 @@
+import turtle
+import random
+
+def generate_random_pizza():
+    pizza = {
+        'shape': random.choice(['round', 'square']),
+        'size': random.choice(['small', 'medium', 'large']),
+        'crust': random.choice(['thin', 'thick', 'stuffed']),
+        'sauce': random.choice(['marinara', 'alfredo']),
+        'toppings': generate_random_toppings(),
+        'slices': random.randint(4, 12)
+    }
+    return pizza
+
+def generate_random_toppings():
+    toppings_list = ['pepperoni', 'sausage', 'mushrooms', 'bell peppers', 'olives', 'pineapple', 'anchovies']
+    num_toppings = random.randint(1, 5)
+    toppings = random.sample(toppings_list, num_toppings)
+    return toppings
+
+def print_pizza(pizza):
+    print("Generated Pizza:")
+    print(f"Shape: {pizza['shape']}")
+    print(f"Size: {pizza['size']}")
+    print(f"Crust: {pizza['crust']}")
+    print(f"Sauce: {pizza['sauce']}")
+    print(f"Toppings: {', '.join(pizza['toppings'])}")
+    print(f"Slices: {pizza['slices']}")
+
+def draw_pizza(pizza):
+    screen = turtle.Screen()
+    screen.title("Random Pizza Generator")
+    screen.bgcolor("white")
+
+    # Create a turtle for drawing
+    pizza_turtle = turtle.Turtle()
+    pizza_turtle.speed(2)
+
+    # Draw the pizza shape
+    if pizza['shape'] == 'round':
+        pizza_turtle.begin_fill()
+        pizza_turtle.color("lightyellow")
+        pizza_turtle.circle(100)
+        pizza_turtle.end_fill()
+    elif pizza['shape'] == 'square':
+        pizza_turtle.begin_fill()
+        pizza_turtle.color("lightyellow")
+        for _ in range(4):
+            pizza_turtle.forward(150)
+            pizza_turtle.right(90)
+        pizza_turtle.end_fill()
+
+    # Draw the crust
+    pizza_turtle.penup()
+    pizza_turtle.goto(-100, -100)
+    pizza_turtle.pendown()
+    pizza_turtle.color("brown")
+    pizza_turtle.pensize(5)
+    pizza_turtle.begin_fill()
+    for _ in range(4):
+        pizza_turtle.forward(200)
+        pizza_turtle.right(90)
+    pizza_turtle.end_fill()
+
+    # Draw the toppings
+    pizza_turtle.penup()
+    pizza_turtle.goto(-50, 50)
+    pizza_turtle.pendown()
+    pizza_turtle.color("red")
+
+    for topping in pizza['toppings']:
+        pizza_turtle.penup()
+        pizza_turtle.goto(-50 + random.randint(-80, 80), 50 + random.randint(-80, 80))
+        pizza_turtle.pendown()
+        if topping == 'pepperoni':
+            pizza_turtle.dot(10, "red")
+        elif topping == 'sausage':
+            pizza_turtle.dot(10, "brown")
+        elif topping == 'mushrooms':
+            pizza_turtle.dot(10, "lightgray")
+        # Add more toppings as needed
+
+    # Close the window on click
+    screen.exitonclick()
+
+# Generate and draw the pizza
+random_pizza = generate_random_pizza()
+print_pizza(random_pizza)
